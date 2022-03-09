@@ -124,4 +124,49 @@ INSERT into address_book values ('Akshay','Gawai','DevPeth','Aurangabad','Mahara
 SELECT * from address_book
 
 
+------------------------------UC12-Draw the ER Diagram------------------------------------------------------------------
+
+CREATE TABLE type
+(
+	type_id int PRIMARY KEY IDENTITY(1,1),
+	type_name varchar(30) NOT NULL,
+	adr_id int FOREIGN KEY REFERENCES address_book(id)
+);
+
+SELECT * from type
+
+INSERT into type values ('Friend',2)
+INSERT into type values ('Profession',2)
+INSERT into type values ('Family',3)
+INSERT into type values ('Other',9)
+
+ALTER TABLE address_book drop column type
+
+ALTER TABLE address_book ADD type_id int FOREIGN KEY REFERENCES type(type_id)
+
+update address_book set type_id = 2 where id = 2
+update address_book set type_id = 4 where id = 3
+update address_book set type_id = 2 where id = 4
+update address_book set type_id = 2 where id = 5
+update address_book set type_id = 3 where id = 6
+update address_book set type_id = 2 where id = 7
+update address_book set type_id = 2 where id = 8
+update address_book set type_id = 5 where id = 9
+update address_book set type_id = 2 where id = 10
+update address_book set type_id = 4 where id = 11
+
+
+------------------------------UC13-Ensure all retrieve queries done especially in UC 6, UC 7, UC 8 and UC 10------------
+
+SELECT * from address_book
+
+SELECT * from address_book where state = 'Maharashtra'
+
+SELECT COUNT(*) from address_book where city = 'Pune'
+
+SELECT * from address_book ORDER BY fname 
+
+SELECT COUNT(type_id) from address_book
+
+
 ----------------------------------------------------------------------------------------------------------------------------
