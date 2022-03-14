@@ -129,31 +129,53 @@ SELECT * from address_book
 CREATE TABLE type
 (
 	type_id int PRIMARY KEY IDENTITY(1,1),
-	type_name varchar(30) NOT NULL,
-	adr_id int FOREIGN KEY REFERENCES address_book(id)
+	type_name varchar(30) NOT NULL
 );
 
 SELECT * from type
+SELECT * from address_book
+DROP table type
+alter table address_book DROP column type_id
 
-INSERT into type values ('Friend',2)
-INSERT into type values ('Profession',2)
-INSERT into type values ('Family',3)
-INSERT into type values ('Other',9)
+INSERT into type values ('Friend')
+INSERT into type values ('Profession')
+INSERT into type values ('Family')
+INSERT into type values ('Other')
 
 ALTER TABLE address_book drop column type
 
-ALTER TABLE address_book ADD type_id int FOREIGN KEY REFERENCES type(type_id)
 
-update address_book set type_id = 2 where id = 2
-update address_book set type_id = 4 where id = 3
-update address_book set type_id = 2 where id = 4
-update address_book set type_id = 2 where id = 5
-update address_book set type_id = 3 where id = 6
-update address_book set type_id = 2 where id = 7
-update address_book set type_id = 2 where id = 8
-update address_book set type_id = 5 where id = 9
-update address_book set type_id = 2 where id = 10
-update address_book set type_id = 4 where id = 11
+CREATE TABLE address_book_service
+(
+	id int PRIMARY KEY IDENTITY(1,1),
+	adr_id int FOREIGN KEY REFERENCES address_book(id),
+	type_id int FOREIGN KEY REFERENCES type(type_id)
+
+);
+
+SELECT * from type
+SELECT * from address_book_service
+SELECT * from address_book
+
+SELECT address_book.address, address_book_service.id,address_book.fname From address_book INNER JOIN address_book_service on address_book_service.id = address_book.id
+
+SELECT * From address_book INNER JOIN address_book_service on address_book_service.id = address_book.id
+SELECT * From address_book_service RIGHT JOIN type on address_book_service.type_id = type.type_id
+SELECT * From address_book_service LEFT JOIN type on address_book_service.type_id = type.type_id
+
+
+INSERT into address_book_service values (2,2)
+INSERT into address_book_service values (3,1)
+INSERT into address_book_service values (4,4)
+INSERT into address_book_service values (5,3)
+INSERT into address_book_service values (6,2)
+INSERT into address_book_service values (7,3)
+INSERT into address_book_service values (8,1)
+INSERT into address_book_service values (9,2)
+INSERT into address_book_service values (10,1)
+INSERT into address_book_service values (11,1)
+
+drop table address_book_service
 
 
 ------------------------------UC13-Ensure all retrieve queries done especially in UC 6, UC 7, UC 8 and UC 10------------
@@ -165,8 +187,5 @@ SELECT * from address_book where state = 'Maharashtra'
 SELECT COUNT(*) from address_book where city = 'Pune'
 
 SELECT * from address_book ORDER BY fname 
-
-SELECT COUNT(type_id) from address_book
-
 
 ----------------------------------------------------------------------------------------------------------------------------
